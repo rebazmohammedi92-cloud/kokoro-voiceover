@@ -23,6 +23,8 @@ python -m PyInstaller ^
   --collect-all gradio_client ^
   --collect-all kokoro_onnx ^
   --collect-all onnxruntime ^
+  --collect-all numpy ^
+  --collect-all soundfile ^
   --add-data "kokoro-v1.0.onnx;." ^
   --add-data "voices-v1.0.bin;." ^
   --add-data "icon.ico;." ^
