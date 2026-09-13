@@ -1,0 +1,38 @@
+name: Build Kokoro Voiceover Installer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download Kokoro model files
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1/kokoro-v1.0.onnx" -OutFile "kokoro-v1.0.onnx"
+          Invoke-WebRequest -Uri "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1/voices-v1.0.bin" -OutFile "voices-v1.0.bin"
+
+      - name: Build the .exe
+        shell: cmd
+        run: build_exe.bat < NUL
+
+      - name: Install Inno Setup
+        shell: cmd
+        run: choco install innosetup -y
+
+      - name: Compile the installer
+        shell: cmd
+        run: '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss'
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: KokoroVoiceover-Setup
+          path: installer_output/KokoroVoiceover-Setup.exe
