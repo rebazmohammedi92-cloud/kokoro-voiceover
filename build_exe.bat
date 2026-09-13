@@ -9,8 +9,8 @@ REM  copied to ANY Windows PC and double-clicked to run —
 REM  no Python installation needed on that PC.
 REM ============================================================
 
-echo Installing PyInstaller...
-python -m pip install -U pyinstaller
+echo Installing required packages...
+python -m pip install -U pyinstaller kokoro-onnx soundfile gradio numpy onnxruntime
 
 echo.
 echo Building KokoroVoiceover.exe (this can take several minutes)...
